@@ -23,7 +23,7 @@ export default {
       try {
         await store.dispatch('resetRace');
       } catch (error) {
-        console.error('Error resetting the race:', error);
+        return console.error('Error ', error);
       }
     };
 

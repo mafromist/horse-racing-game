@@ -25,7 +25,7 @@
             <tr class="tab--content-table-head-row">
               <th class="tab--content-table-head-text">Position</th>
               <th class="tab--content-table-head-text">Horse Number</th>
-              <th class="tab--content-table-head-text">Performance Point</th>
+              <th class="tab--content-table-head-text">Race Point</th>
               <th class="tab--content-table-head-text">Finish Time (s)</th>
             </tr>
           </thead>
@@ -42,7 +42,7 @@
               </td>
 
               <td class="tab--content-table-body-text">
-                {{ horse.performancePoint }}
+                {{ horse.score }}
               </td>
               <td class="tab--content-table-body-text">
                 {{ horse.finishTime }}

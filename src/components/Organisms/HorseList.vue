@@ -1,6 +1,6 @@
 <template>
   <div class="horse-list-wrapper">
-    <h2>Racing Horses List</h2>
+    <h2 class="horse-list--title">Racing Horses List</h2>
     <div class="horse-list" v-if="horses.length > 0">
       <HorseItem v-for="horse in horses" :key="horse.index" :horse="horse" :showPP="true"/>
     </div>

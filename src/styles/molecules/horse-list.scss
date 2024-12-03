@@ -12,6 +12,10 @@
 	}
 
 	&-list {
+		&--title {
+			font-size: 2rem;
+		}
+		
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 
@@ -23,10 +27,7 @@
 			border: 3px solid #332f2f;
 			border-radius: 4px;
 
-      h2 {
-				font-size: 20px;
-        text-align: left;
-      }
+      
 		}
 	}
 
@@ -38,5 +39,4 @@
 		font-weight: bold;
 		font-size: 1.2rem;
 	}
-
 }

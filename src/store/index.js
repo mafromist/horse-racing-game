@@ -1,10 +1,10 @@
 import { createStore } from 'vuex';
 
-// Helper functions for generating random horses
 const generateRandomHEXColor = () =>
   `#${Math.floor(Math.random() * 16777215)
     .toString(16)
     .padStart(6, '0')}`;
+
 const generatePerformancePoint = () => Math.floor(Math.random() * 91) + 10;
 
 export default createStore({
@@ -13,6 +13,7 @@ export default createStore({
     rounds: [],
     schedule: [],
     results: [],
+    scores: {}, 
     isRaceGenerated: false,
     isRaceReseted: false,
     isRaceStarted: false,
@@ -28,6 +29,7 @@ export default createStore({
     getIsRaceStarted: (state) => state.isRaceStarted,
     getIsRacePaused: (state) => state.isRacePaused,
     getRaceResults: (state) => state.results,
+    getScores: (state) => state.scores, 
   },
   mutations: {
     setHorses(state, horses) {
@@ -53,22 +55,28 @@ export default createStore({
       state.isRaceGenerated = false;
       state.isRaceStarted = false;
     },
-  
-    setRaceResultFinishTimes(state, { roundIndex, resultHorses }) {
+
+    setRaceResultFinishTimes(state, { roundIndex, sortedHorses }) {
       const distances = [1200, 1400, 1600, 1800, 2000, 2200];
-      const sortedHorses = [...resultHorses].sort((a, b) => a.finishTime - b.finishTime);
+
+      sortedHorses.forEach((horse, index) => {
+        const scores = 10 - index;
+        state.scores[horse.id] = (state.scores[horse.id] || 0) + scores;
+  
+        horse.score = scores;
+      });
+
       state.results[roundIndex] = {
         distance: distances[roundIndex],
         roundId: roundIndex + 1,
         horses: sortedHorses,
       };
+      
     },
 
     setRaceFinished(state, finished) {
       state.isRaceFinished = finished;
     },
-
-    
   },
   actions: {
     async generateHorses({ commit }) {
@@ -117,13 +125,18 @@ export default createStore({
       commit('setResetRace');
     },
 
+    pauseRace({ commit }) {
+      commit('setIsRacePaused', true);
+    },
+
     setRaceResultFinishTimes({ commit }, { roundIndex, resultHorses } = {}) {
-      
       if (roundIndex === undefined || !resultHorses) {
-        console.error('setRaceResultFinishTimes: Missing roundIndex or resultHorses');
         return;
       }
-      commit('setRaceResultFinishTimes', { roundIndex, resultHorses });
+      const sortedHorses = [...resultHorses].sort((a, b) => a.finishTime - b.finishTime);
+
+      
+      commit('setRaceResultFinishTimes', { roundIndex, sortedHorses });
     },
   },
 });
