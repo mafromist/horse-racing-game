@@ -5,7 +5,7 @@
 	line-height: 0;
 	color: #332f2f;
 
-	.icon {
+	&--icon {
 		height: 25px;
 		width: auto;
 		aspect-ratio: 4 / 3;
@@ -17,14 +17,14 @@
 
 		&-wrapper {
 			background-color: #f9f9f9;
-			height: 100%;
-			max-width: 27.8rem;
+			min-width: 27.8rem;
 			padding: 8px 16px;
 			color: #332f2f;
 			border: 3px solid #332f2f;
 			border-radius: 4px;
 
       h2 {
+				font-size: 20px;
         text-align: left;
       }
 		}

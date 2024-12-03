@@ -1,7 +1,18 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/horse-race">Horse Race</router-link>
+  <nav v-show="!isHomePage" class="app--nav">
+    <router-link to="/" class="app--nav-link">Home</router-link>
+    <router-link to="/horse-race" class="app--nav-link">Horse Race</router-link>
   </nav>
-  <router-view/>
+  <router-view />
 </template>
+
+<script>
+export default {
+  computed: {
+    // Check if the current route is the homepage
+    isHomePage() {
+      return this.$route.path === '/';
+    }
+  }
+};
+</script>

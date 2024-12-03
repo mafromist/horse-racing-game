@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="race-controls">
     <GenerateRace />
     <ResetRace />
   </div>

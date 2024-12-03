@@ -1,0 +1,35 @@
+.button {
+  padding: 4px;
+  font-size: 12px;
+  background-color: transparent;
+  border: none;
+  outline: 2px solid var(--color-red);
+  transition: 0.2s ease-out all;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--color-red);
+    color: white;
+  }
+
+  &--big {
+    font-size: 16px;
+    padding: 4px 8px;
+  }
+
+  &--link {
+    background-color: var(--color-red);
+    color: var(--color-white);
+    outline: none;
+    border: none;
+    text-decoration: none;
+    font-size: 36px;
+    padding: 6px 12px;
+
+    &:hover {
+      background-color: var(--color-white);
+      color: var(--color-red);
+      text-decoration: none;
+    }
+  }
+}

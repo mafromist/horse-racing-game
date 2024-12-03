@@ -1,43 +1,50 @@
 <template>
-  <div class="racing-horses">
-    <h2>Horse Racing Rounds</h2>
-    <!-- Tabs Navigation -->
-    <div v-if="horses && horses.length > 0" class="tabs">
-      <div
-        class="tab"
-        v-for="(round, index) in rounds"
-        :key="round.index"
-        :class="{ active: selectedTab === index }"
-        @click="selectTab(index)"
-      >
-        Round {{ index + 1 }} - {{ round.distance }} M
+  <div class="tabs race-schedule">
+    <h2 class="tabs--title">Horse Racing Rounds</h2>
+    <div class="tab">
+      <div v-if="horses && horses.length > 0" class="tab--nav">
+        <div
+          class="tab--nav-item"
+          v-for="(round, index) in rounds"
+          :key="round.index"
+          :class="{ active: selectedTab === index }"
+          @click="selectTab(index)"
+        >
+          <p class="tab--nav-item-title">Round {{ index + 1 }}</p>
+          <p class="tab--nav-item-title">{{ round.distance }}M</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Tab Content -->
-    <div v-if="selectedTab !== null && rounds[selectedTab]" class="tab-content">
-      <table>
-        <thead>
-          <tr>
-            <th>Position</th>
-            <th>Horse Number</th>
-            <th>Color</th>
-            <th>Performance Point</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(horse, index) in rounds[selectedTab].horses"
-            :key="horse.id"
-          >
-            <td>{{ index + 1 }}</td>
-            <!-- Position starts from 1 -->
-            <td>Horse {{ horse.number }}</td>
-            <td :style="{ backgroundColor: horse.color }">{{ horse.color }}</td>
-            <td>{{ horse.performancePoint }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div
+        v-if="selectedTab !== null && rounds[selectedTab]"
+        class="tab--content"
+      >
+        <table class="tab--content-table">
+          <thead class="tab--content-table-head">
+            <tr class="tab--content-table-head-row">
+              <th class="tab--content-table-head-text">Position</th>
+              <th class="tab--content-table-head-text">Horse Number</th>
+              <th class="tab--content-table-head-text">Performance Point</th>
+            </tr>
+          </thead>
+          <tbody class="tab--content-table-body">
+            <tr
+              v-for="(horse, index) in rounds[selectedTab].horses"
+              :key="horse.id"
+              class="tab--content-table-body-row"
+            >
+              <td class="tab--content-table-body-text">{{ index + 1 }}</td>
+              <td class="tab--content-table-body-text horse-item">
+                <HorseItem :horse="horse" />
+              </td>
+
+              <td class="tab--content-table-body-text">
+                {{ horse.performancePoint }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -45,9 +52,11 @@
 <script>
 import { computed, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import HorseItem from '@/components/Molecules/HorseItem.vue';
 
 export default {
   name: 'ScheduleTabs',
+  components: { HorseItem },
 
   setup() {
     const store = useStore();
@@ -76,44 +85,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.tabs {
-  display: flex;
-  gap: 10px;
-}
-
-.tab {
-  cursor: pointer;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.tab.active {
-  background-color: #007bff;
-  color: white;
-}
-
-.tab-content {
-  margin-top: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-th {
-  background-color: #f9f9f9;
-}
-</style>

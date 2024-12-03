@@ -13,13 +13,19 @@ export default createStore({
     rounds: [],
     schedule: [],
     isRaceGenerated: false,
-    resetRace: false,
+    isRaceReseted: false,
+    isRaceStarted: false,
+    isRaceFinished: false,
+    isRacePaused: false,
   },
   getters: {
     getHorses: (state) => state.horses,
     getRounds: (state) => state.rounds,
+    getRaceSchedule: (state) => state.schedule,
     getIsRaceGenerated: (state) => state.isRaceGenerated,
-    getResetRace: (state) => state.resetRace,
+    getResetRace: (state) => state.isRaceReseted,
+    getIsRaceStarted: (state) => state.isRaceStarted,
+    getIsRacePaused: (state) => state.isRacePaused,
   },
   mutations: {
     setHorses(state, horses) {
@@ -31,14 +37,18 @@ export default createStore({
     setIsGeneratedRace(state, value) {
       state.isRaceGenerated = value;
     },
+    setIsRaceStarted(state, value) {
+      state.isRaceStarted = value;
+    },
+    setIsRacePaused(state, value) {
+      state.isRacePaused = value;
+    },
     setResetRace(state) {
       state.horses = [];
       state.schedule = [];
-      // state.results = [];
-      // state.running = false;
-      // state.finished = false;
-      // state.paused = false;
+      state.rounds = [];
       state.isRaceGenerated = false;
+      state.isRaceStarted = false;
     },
   },
   actions: {
@@ -72,8 +82,39 @@ export default createStore({
       commit('setRaceSchedule', rounds);
     },
 
+    startRace({ commit }) {
+      if (!this.state.isRaceGenerated) return;
+      if (!this.state.isRaceStarted) {
+        commit('setIsRaceStarted', true);
+        commit('setIsRacePaused', false);
+      } else if (!this.state.paused) {
+        commit('setIsRacePaused', true);
+      } else {
+        commit('setIsRacePaused', false);
+      }
+    },
     resetRace({ commit }) {
       commit('setResetRace');
+    },
+
+    RaceResultsWithTiming({ state }) {
+      const rounds = state.rounds;
+      for (let i = 0; i < rounds.length; i++) {
+        const round = rounds[i];
+        const distance = round.distance;
+        const horses = round.horses;
+        const results = [];
+        for (let j = 0; j < horses.length; j++) {
+          const horse = horses[j];
+          const performance = horse.performancePoint;
+          const time = Math.floor((distance / performance) * 60);
+          results.push({
+            horse: horse,
+            time: time,
+          });
+        }
+        results.sort((a, b) => a.time - b.time);
+      }
     },
   },
 });
