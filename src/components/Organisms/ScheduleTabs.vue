@@ -1,8 +1,13 @@
 <template>
   <div class="tabs race-schedule">
     <h2 class="tabs--title">Horse Racing Rounds</h2>
-    <div class="tab">
-      <div v-if="horses && horses.length > 0" class="tab--nav">
+
+    <div v-if="horses.length === 0" class="loading">
+      <p>No Race Schedule Available</p>
+    </div>
+
+    <div v-if="horses.length !== 0" class="tab">
+      <div class="tab--nav">
         <div
           class="tab--nav-item"
           v-for="(round, index) in rounds"
@@ -35,7 +40,7 @@
             >
               <td class="tab--content-table-body-text">{{ index + 1 }}</td>
               <td class="tab--content-table-body-text horse-item">
-                <HorseItem :horse="horse" />
+                <HorseItem :horse="horse" :showPP="false" />
               </td>
 
               <td class="tab--content-table-body-text">

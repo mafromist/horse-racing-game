@@ -1,15 +1,14 @@
 <template>
   <div class="race-animation">
     <h2 class="race-title">Race</h2>
-    {{ currentRun }}
-    <div v-if="currentRun" class="race-info">
-      <h3 class="distance">{{ currentRun.distance }}m</h3>
-      <p class="round">Round: {{ currentRunIndex + 1 }} / 6</p>
+    <div v-if="currentRound" class="race-info">
+      <h3 class="distance">{{ currentRound.distance }}m</h3>
+      <p class="round">Round: {{ currentRoundIndex + 1 }} / 6</p>
     </div>
     <div class="race-track">
       <div class="start-line">
         <div
-          v-for="horse in currentRun?.horses || []"
+          v-for="horse in currentRound?.horses || []"
           :key="horse.id"
           class="horse-id"
         >
@@ -18,11 +17,11 @@
       </div>
       <div class="race-line">
         <div
-          v-for="horse in currentRun?.horses || []"
+          v-for="horse in currentRound?.horses || []"
           :key="horse.id"
           class="horse"
         >
-          <IconHorse class="horse-icon" :color="horse.color" />
+          <IconHorse id="racing" class="horse-icon" :color="horse.color" />
         </div>
       </div>
       <div class="finish-line">Finish</div>
@@ -43,9 +42,9 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const currentRunIndex = ref(0);
-    const currentRun = computed(
-      () => store.getters.getRaceSchedule,
+    const currentRoundIndex = ref(0);
+    const currentRound = computed(
+      () => store.getters.getRounds[currentRoundIndex.value],
     );
 
     const isAnimating = ref(false);
@@ -54,27 +53,26 @@ export default defineComponent({
       if (isAnimating.value) return;
 
       isAnimating.value = true;
-      const run = currentRun.value;
-      if (run) {
-        animateRun(run.horses, run.distance).then((finishTimes) => {
-          const resultHorses = run.horses.map((horse, index) => ({
+      const round = currentRound.value;
+      if (round) {
+        animateRun(round.horses, round.distance).then((finishTimes) => {
+          const resultHorses = round.horses.map((horse, index) => ({
             ...horse,
             finishTime: finishTimes[index],
           }));
 
-          store.commit('RaceResultsWithTiming', {
-            runIndex: currentRunIndex.value,
+          store.commit('setRaceResultFinishTimes', {
+            roundIndex: currentRoundIndex.value,
             resultHorses,
           });
 
-          currentRunIndex.value += 1;
+          currentRoundIndex.value += 1;
 
-          // Use setTimeout to delay the next race if needed
-          if (currentRunIndex.value < 6) {
+          if (currentRoundIndex.value < 6) {
             setTimeout(() => {
               resetHorsesPosition();
               startRace();
-            }, 500); // Adjust delay time if needed (e.g., 500ms)
+            }, 5000);
           } else {
             store.commit('setRaceFinished', true);
           }
@@ -114,11 +112,11 @@ export default defineComponent({
         const endPosition = getEndPosition();
 
         horses.forEach((horse, index) => {
-          const duration = distance / (50 + Math.random() * 50);
+          const duration = (distance / (50 + Math.random() * 50)).toFixed(2);
           finishTimes.push(duration);
 
           anime({
-            targets: `.horse:nth-child(${index + 1})`,
+            targets: `#racing .horse:nth-child(${index + 1})`,
             translateX: endPosition + 'px',
             duration: duration * 1000,
             easing: 'linear',
@@ -144,7 +142,7 @@ export default defineComponent({
       },
     );
 
-    return { currentRun, currentRunIndex };
+    return { currentRound, currentRoundIndex };
   },
 });
 </script>

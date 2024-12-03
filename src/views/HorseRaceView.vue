@@ -3,11 +3,10 @@
     <RaceControls />
     <div class="horse-race--fixtures">
       <HorseList />
-      <FullTabView />
-      <FullTabView />
+      <ScheduleTabs />
+      <ResultsTabs />
     </div>
     <div class="horse-race--display">
-     <h1>Animation Here</h1>
      <RaceDisplay/>
     </div>
   </div>
@@ -16,11 +15,12 @@
 <script>
 import RaceControls from '@/components/Organisms/RaceControls.vue';
 import HorseList from '@/components/Organisms/HorseList.vue';
-import FullTabView from '@/components/Organisms/FullTabView.vue';
+import ScheduleTabs from '@/components/Organisms/ScheduleTabs.vue';
+import ResultsTabs from '@/components/Organisms/ResultsTabs.vue';
 import RaceDisplay from '@/components/Organisms/RaceDisplay.vue';
 
 export default {
   name: 'HorseRaceView',
-  components: { HorseList, RaceControls, FullTabView, RaceDisplay},
+  components: { HorseList, RaceControls, ScheduleTabs, RaceDisplay, ResultsTabs},
 };
 </script>

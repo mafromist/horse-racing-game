@@ -3,7 +3,6 @@
     <p class="horse-name">
       Horse <span class="horse-number">{{ horse?.number }}</span>
     </p>
-
     <IconHorse :color="horse?.color" />
     <p v-if="showPP" class="horse-performance-point">
       {{ horse.performancePoint }}
@@ -25,7 +24,7 @@ export default {
     },
     showPP: {
       type: Boolean,
-      required: true,
+      default: false,
     },
   },
 };
