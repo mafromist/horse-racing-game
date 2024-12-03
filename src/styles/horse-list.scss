@@ -1,0 +1,41 @@
+.horse {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	line-height: 0;
+	color: #332f2f;
+
+	&-list {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+
+		&-wrapper {
+			background-color: #f9f9f9;
+			height: 100%;
+			max-width: 27.8rem;
+			padding: 8px 16px;
+			color: #332f2f;
+			border: 3px solid #332f2f;
+			border-radius: 4px;
+
+      h2 {
+        text-align: left;
+      }
+		}
+	}
+
+	&-image {
+		height: 25px;
+		width: auto;
+		aspect-ratio: 4 / 3;
+	}
+
+	&-name {
+		font-size: 1.6rem;
+	}
+
+	&-performance-point {
+		font-weight: bold;
+		font-size: 1.2rem;
+	}
+}
