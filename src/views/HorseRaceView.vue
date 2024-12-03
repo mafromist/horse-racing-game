@@ -1,16 +1,20 @@
 <template>
-	<div class="horse-race">
-		<GenerateRace />
-		<HorseList />
-	</div>
+  <div class="horse-race">
+    <RaceControls />
+    <HorseList />
+    <!-- <ScheduleTabs/> -->
+    <FullTabView />
+  </div>
 </template>
 
 <script>
-	import GenerateRace from '@/components/Controls/GenerateRace.vue';
-	import HorseList from '@/components/HorseList/HorseList.vue';
+import RaceControls from '@/components/Organisms/RaceControls.vue';
+import HorseList from '@/components/Organisms/HorseList.vue';
+// import ScheduleTabs from '@/components/Organisms/ScheduleTabs.vue';
+import FullTabView from '@/components/Organisms/FullTabView.vue';
 
-	export default {
-		name: 'HorseRaceView',
-		components: {HorseList, GenerateRace},
-	};
+export default {
+  name: 'HorseRaceView',
+  components: { HorseList, RaceControls, FullTabView },
+};
 </script>

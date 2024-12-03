@@ -3,8 +3,9 @@
 		<p class="horse-name">
 			Horse <span class="horse-number">{{ horse?.number }}</span>
 		</p>
+		
 		<svg
-			class="horse-image"
+			class="icon"
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 1000 666.667"
 			:fill="horse?.color">
@@ -47,7 +48,7 @@
 				transform="matrix(1.33333 0 0 -1.33333 93.899 106.087)"
 				clip-path="url(#c)" />
 		</svg>
-    <p class="horse-performance-point">{{ horse?.performancePoint }}</p>
+    <p v-if="showPP" class="horse-performance-point">{{ horse.performancePoint }}</p>
 	</div>
 </template>
 
@@ -57,7 +58,12 @@
 		props: {
 			horse: {
 				type: Object,
+				required: true
 			},
+			showPP: {
+				type: Boolean,
+				required: true,
+			}
 		},
 	};
 </script>
