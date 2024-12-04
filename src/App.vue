@@ -9,7 +9,6 @@
 <script>
 export default {
   computed: {
-    // Check if the current route is the homepage
     isHomePage() {
       return this.$route.path === '/';
     }

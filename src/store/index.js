@@ -19,6 +19,7 @@ export default createStore({
     isRaceFinished: false,
     isRacePaused: false,
     totalScores: {},
+    horsePositions: {},
   },
   getters: {
     getHorses: (state) => state.horses,
@@ -31,6 +32,7 @@ export default createStore({
     getRaceResults: (state) => state.results,
     getIsRaceFinished: (state) => state.isRaceFinished,
     getTotalScores: (state) => state.totalScores,
+    getHorsePositions: (state) => state.horsePositions,
   },
   mutations: {
     setHorses(state, horses) {
@@ -66,7 +68,7 @@ export default createStore({
           distance: distances[roundIndex],
           roundId: roundIndex + 1,
           horses: [],
-          roundScores: {}, // To hold the round points
+          roundScores: {},
         };
       }
 
@@ -86,6 +88,10 @@ export default createStore({
 
     setRaceFinished(state, finished) {
       state.isRaceFinished = finished;
+    },
+
+    setHorsePositions(state, positions) {
+      state.horsePositions = positions;
     },
   },
   actions: {
@@ -137,6 +143,7 @@ export default createStore({
 
     pauseRace({ commit }) {
       commit('setIsRacePaused', true);
+      commit('setIsRaceStarted', false);
     },
 
     setRaceResultFinishTimes({ commit }, { roundIndex, resultHorses } = {}) {

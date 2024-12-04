@@ -90,3 +90,6 @@ export default {
   },
 };
 </script>
+
+
+//TODO: Seperate the component into smaller components for atomic design structure

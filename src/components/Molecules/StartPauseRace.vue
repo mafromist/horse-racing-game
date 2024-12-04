@@ -3,7 +3,8 @@
     v-if="isGenerated"
     buttonClass="button button--big"
     :buttonText="isRaceStarted ? 'Pause The Race' : 'Start The Race'"
-    @click="startRace"
+    :style="{ display: isRaceFinished ? 'none' : 'block' }"
+    @click="toggleRace"
   />
 </template>
 
@@ -21,8 +22,9 @@ export default {
     const isGenerated = computed(() => store.getters.getIsRaceGenerated);
     const isRaceStarted = computed(() => store.getters.getIsRaceStarted);
     const isRacePaused = computed(() => store.getters.getIsRacePaused);
+    const isRaceFinished = computed(() => store.getters.getIsRaceFinished);
 
-    const startRace = async () => {
+    const toggleRace = async () => {
       if (isRaceStarted.value) {
         await store.dispatch('pauseRace');
       } else {
@@ -30,20 +32,12 @@ export default {
       }
     };
 
-    const pauseRace = async () => {
-      try {
-        await store.dispatch('pauseRace');
-      } catch (error) {
-        return console.error('Error ', error);
-      }
-    };
-
     return {
       isGenerated,
       isRaceStarted,
-      startRace,
-      pauseRace,
+      toggleRace,
       isRacePaused,
+      isRaceFinished,
     };
   },
 };

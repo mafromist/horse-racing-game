@@ -7,7 +7,6 @@
       </h2>
     </div>
     <div class="race--track">
-
       <div class="race--start-line">
         <div
           v-for="horse in currentRound?.horses || []"
@@ -30,7 +29,7 @@
     </div>
   </div>
   <div v-if="isRaceFinished" class="race--score-table">
-    <Winners/>
+    <Winners />
   </div>
 </template>
 
@@ -45,7 +44,7 @@ export default defineComponent({
   name: 'RaceAnimation',
   components: {
     IconHorse,
-    Winners
+    Winners,
   },
   setup() {
     const store = useStore();
@@ -55,15 +54,25 @@ export default defineComponent({
       () => store.getters.getRounds[currentRoundIndex.value],
     );
 
-    const isAnimating = ref(false);
+    const isAnimationStarted = ref(false);
 
     const startRace = () => {
-      if (isAnimating.value) return;
+      if (isAnimationStarted.value) return;
 
-      isAnimating.value = true;
+      isAnimationStarted.value = true;
+
       const round = currentRound.value;
+
       if (round) {
-        animateRound(round.horses, round.distance).then((finishTimes) => {
+        const endPosition = getEndPosition();
+        const horsePositions = store.getters.getHorsePositions || {};
+
+        const remainingDistances = round.horses.map((horse) => {
+          const currentX = horsePositions[`racing-${horse.id}`] || 0;
+          return Math.max(endPosition - currentX, 0); // Prevent negative values
+        });
+
+        startRound(round.horses, remainingDistances).then((finishTimes) => {
           const resultHorses = round.horses.map((horse, index) => ({
             ...horse,
             finishTime: finishTimes[index],
@@ -85,12 +94,13 @@ export default defineComponent({
             store.commit('setRaceFinished', true);
           }
 
-          isAnimating.value = false;
+          isAnimationStarted.value = false;
         });
       }
     };
 
     const resetHorsesPosition = () => {
+      store.commit('setHorsePositions', {});
       const horses = document.querySelectorAll('[id^="racing-"]');
       horses.forEach((horse) => {
         horse.style.transform = `translateX(0)`;
@@ -114,23 +124,20 @@ export default defineComponent({
       return 0;
     };
 
-    const animateRound = (horses, distance) => {
+    const startRound = (horses, remainingDistances) => {
       return new Promise((resolve) => {
         const finishTimes = [];
-        const endPosition = getEndPosition();
-
-
-        horses.forEach((horse, index) => {
+        remainingDistances.forEach((distance, index) => {
           const duration = (distance / (50 + Math.random() * 50)).toFixed(2);
           finishTimes.push(duration);
 
           anime({
-            targets: `#racing-${horse.id}`,
-            translateX: endPosition + 'px',
+            targets: `#racing-${horses[index].id}`,
+            translateX: `+=${distance}px`, // Add only the remaining distance
             duration: duration * 100,
             easing: 'linear',
             complete: () => {
-              if (index === horses.length - 1) resolve(finishTimes);
+              if (index === remainingDistances.length - 1) resolve(finishTimes);
             },
           });
         });
@@ -138,17 +145,40 @@ export default defineComponent({
     };
 
     const pauseRace = () => {
-      isAnimating.value = false;
+      isAnimationStarted.value = false;
+      saveHorsePositions();
+      anime.remove('[id^="racing-"]');
+      store.commit('setIsRaceStarted', false);
       store.commit('setIsRacePaused', true);
-      resetHorsesPosition();
+    };
+
+    const saveHorsePositions = () => {
+      const horses = document.querySelectorAll('[id^="racing-"]');
+      const positions = {};
+      horses.forEach((horse) => {
+        const transform = horse.style.transform || '';
+        const match = transform.match(/translateX\((\d+(?:\.\d+)?)px\)/);
+        positions[horse.id] = match ? parseFloat(match[1]) : 0;
+      });
+      store.commit('setHorsePositions', positions);
+    };
+
+    const resumeHorsePositions = () => {
+      const horses = document.querySelectorAll('[id^="racing-"]');
+      const horsePositions = store.getters.getHorsePositions || {};
+      horses.forEach((horse) => {
+        const savedPosition = horsePositions[horse.id] || 0;
+        horse.style.transform = `translateX(${savedPosition}px)`;
+      });
     };
 
     watch(
-      () => store.state.isRaceStarted,
-      (newValue) => {
-        if (newValue) {
+      () => [store.state.isRaceStarted, store.state.isRacePaused],
+      ([isStarted, isPaused]) => {
+        if (isStarted && !isPaused) {
+          resumeHorsePositions();
           startRace();
-        } else {
+        } else if (isPaused) {
           pauseRace();
         }
       },
