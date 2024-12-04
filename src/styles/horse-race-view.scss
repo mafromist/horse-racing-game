@@ -2,7 +2,6 @@
   width: 100vw;
   box-sizing: border-box;
 
-
   @include respond-to(768px) {
     @include flex-center;
     flex-direction: column;
@@ -12,7 +11,7 @@
   }
 
   @include respond-from(768px) {
-    flex-direction: row;
+    flex-direction: column;
     padding: 0 16px ;
   }
 
@@ -22,9 +21,9 @@
       flex-direction: column-reverse;
       gap: 12px;
     }
-    @include respond-from(1200px) {
+    @include respond-from(768px) {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       
     }
   }
