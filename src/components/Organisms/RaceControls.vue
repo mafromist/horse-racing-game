@@ -6,16 +6,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import GenerateRace from '@/components/Molecules/GenerateRace.vue';
 import ResetRace from '@/components/Molecules/ResetRace.vue';
 import StartPauseRace from '@/components/Molecules/StartPauseRace.vue';
-
-export default {
-  components: {
-    GenerateRace,
-    ResetRace,
-    StartPauseRace,
-  },
-};
 </script>

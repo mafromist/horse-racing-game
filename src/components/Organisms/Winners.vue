@@ -1,15 +1,14 @@
 <template>
-  <div class="winner-container">
-    <TextItem title="Race Winner" />
-    <div v-if="topThreeScores.length > 0" class="winner-card">
+  <div class="winner--container">
+    <TextItem tag="h2">Race Winner</TextItem>
+    <div v-if="topThreeScores.length > 0" class="winner--cards">
       <WinnerCard
-        :horseId="topThreeScores[0].horseId"
-        :totalPoints="topThreeScores[0].totalPoints"
-        iconColor="gold"
+        v-for="score in topThreeScores"
+        :key="score.horseId"
+        :horseId="score.horseId"
+        :totalPoints="score.totalPoints"
+        :iconColor="score.iconColor"
       />
-      <div class="winner-description">
-        <p>Congratulations to the winner! This horse scored the highest points across all rounds.</p>
-      </div>
     </div>
     <div v-else>
       <p>No winner yet!</p>
@@ -25,18 +24,19 @@ import WinnerCard from '@/components/Molecules/WinnerCard.vue';
 
 const store = useStore();
 
-// Get total scores for each horse from Vuex store
 const totalScores = computed(() => store.state.totalScores);
 
-// Get the top scorer (winner)
 const topThreeScores = computed(() => {
-  const sortedScores = Object.keys(totalScores.value)
-    .map(horseId => ({
-      horseId,
-      totalPoints: totalScores.value[horseId]
-    }))
-    .sort((a, b) => b.totalPoints - a.totalPoints);
+  const iconColors = ['#ffd700', '#c0c0c0', '#6f3535'];
 
-  return sortedScores.slice(0, 3); // Return the top 3
+  const sortedScores = Object.entries(totalScores.value)
+    .sort(([, aPoints], [, bPoints]) => bPoints - aPoints)
+    .map(([horseId, totalPoints], index) => ({
+      horseId,
+      totalPoints,
+      iconColor: iconColors[index] || null,
+    }));
+
+  return sortedScores.slice(0, 3);
 });
 </script>

@@ -55,6 +55,7 @@ export default createStore({
       state.results = [];
       state.isRaceGenerated = false;
       state.isRaceStarted = false;
+      state.totalScores = {};
     },
 
     setRaceResultFinishTimes(state, { roundIndex, sortedHorses }) {

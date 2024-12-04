@@ -1,9 +1,44 @@
 .horse-race {
+  width: 100vw;
+  box-sizing: border-box;
+
+
+  @include respond-to(768px) {
+    @include flex-center;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 16px;
+    overflow: hidden;
+  }
+
+  @include respond-from(768px) {
+    flex-direction: row;
+    padding: 0 16px ;
+  }
+
+  &--game {
+    @include respond-to(768px) {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 12px;
+    }
+    @include respond-from(1200px) {
+      display: flex;
+      flex-direction: row;
+      
+    }
+  }
+
   &--fixtures {
     display: flex;
     justify-content: space-between;
     gap: 12px;
     align-items: stretch;
+    
 
+    @include respond-to(768px) {
+      flex-direction: column;
+      gap: 16px;
+    }
   }
 }

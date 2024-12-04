@@ -6,10 +6,10 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ButtonItem',
-  props: {
+<script setup>
+  import { defineProps } from 'vue';
+
+  defineProps({
     buttonClass: {
       type: String,
       required: false,
@@ -19,6 +19,6 @@ export default {
       required: true,
       default: 'Click Button',
     },
-  },
-};
+  });
+
 </script>

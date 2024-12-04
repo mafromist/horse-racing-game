@@ -1,14 +1,14 @@
 <template>
   <div v-if="currentRound?.horses.length > 0 && !isRaceFinished" class="race">
-    <div class="race-header">
-      <h2 class="race-title">
+    <div class="race--header">
+      <h2 class="race--title">
         Current Race | {{ currentRound.distance }}M | Round:
         {{ currentRoundIndex + 1 }} / 6
       </h2>
     </div>
-    <div class="race-track">
+    <div class="race--track">
 
-      <div class="start-line">
+      <div class="race--start-line">
         <div
           v-for="horse in currentRound?.horses || []"
           :key="horse.id"
@@ -17,7 +17,7 @@
           Horse {{ horse.id }}
         </div>
       </div>
-      <div class="race-line">
+      <div class="race--line">
         <div
           v-for="horse in currentRound?.horses || []"
           :key="horse.id"
@@ -26,11 +26,10 @@
           <IconHorse :id="`racing-${horse.id}`" :color="horse.color" />
         </div>
       </div>
-      <div class="finish-line">Finish</div>
+      <div class="race--finish-line">FINISH HERE</div>
     </div>
   </div>
-  <div v-if="isRaceFinished" class="score-table">
-    <!-- <ScoreTable /> -->
+  <div v-if="isRaceFinished" class="race--score-table">
     <Winners/>
   </div>
 </template>
@@ -40,14 +39,12 @@ import { defineComponent, computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import anime from 'animejs';
 import IconHorse from '@/components/Atoms/IconHorse.vue';
-// import ScoreTable from '@/components/Organisms/ScoreTable.vue';
 import Winners from '@/components/Organisms/Winners.vue';
 
 export default defineComponent({
   name: 'RaceAnimation',
   components: {
     IconHorse,
-    // ScoreTable,
     Winners
   },
   setup() {
@@ -66,7 +63,7 @@ export default defineComponent({
       isAnimating.value = true;
       const round = currentRound.value;
       if (round) {
-        animateRun(round.horses, round.distance).then((finishTimes) => {
+        animateRound(round.horses, round.distance).then((finishTimes) => {
           const resultHorses = round.horses.map((horse, index) => ({
             ...horse,
             finishTime: finishTimes[index],
@@ -101,9 +98,9 @@ export default defineComponent({
     };
 
     const getEndPosition = () => {
-      const raceTrack = document.querySelector('.race-track');
-      const finishLine = document.querySelector('.finish-line');
-      const startLine = document.querySelector('.start-line');
+      const raceTrack = document.querySelector('.race--track');
+      const finishLine = document.querySelector('.race--finish-line');
+      const startLine = document.querySelector('.race--start-line');
 
       if (raceTrack && finishLine && startLine) {
         const raceTrackRect = raceTrack.getBoundingClientRect();
@@ -117,12 +114,11 @@ export default defineComponent({
       return 0;
     };
 
-    const animateRun = (horses, distance) => {
+    const animateRound = (horses, distance) => {
       return new Promise((resolve) => {
         const finishTimes = [];
         const endPosition = getEndPosition();
 
-        console.log(horses.map((horse) => horse.id));
 
         horses.forEach((horse, index) => {
           const duration = (distance / (50 + Math.random() * 50)).toFixed(2);

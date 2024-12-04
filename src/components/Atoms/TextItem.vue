@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" class="text-item" :class="customClass">
+  <component :is="tag" class="text-item" :class="customClass" >
     <slot></slot>
   </component>
 </template>
@@ -10,7 +10,7 @@ defineProps({
   tag: {
     type: String,
     required: true,
-    default: 'p', // Default tag is 'h2'
+    default: 'p',
   },
   customClass: {
     type: String,

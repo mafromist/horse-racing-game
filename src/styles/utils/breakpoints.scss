@@ -1,0 +1,40 @@
+
+$fix-mqs: false !default;
+@mixin respond-from($width) {
+   @if $fix-mqs{
+    @if $fix-mqs >= $width {
+       @content;
+    }
+  }
+  @else {
+     @media screen and (min-width: $width){
+      @content;
+    }
+  }
+}
+
+@mixin respond-to($width) {
+   @if $fix-mqs{
+    @if $fix-mqs < $width {
+       @content;
+    }
+  }
+  @else {
+     @media screen and (max-width: $width){
+      @content;
+    }
+  }
+}
+
+@mixin respond-between($smallWidth, $largeWidth) {
+   @if $fix-mqs{
+    @if $fix-mqs >= $smallWidth and $fix-mqs < $largeWidth {
+       @content;
+    }
+  }
+  @else {
+     @media screen and (min-width: $smallWidth) and (max-width: $largeWidth){
+        @content;
+    }
+  }
+}

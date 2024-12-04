@@ -1,13 +1,17 @@
 <template>
   <div class="horse-race">
-    <RaceControls />
-    <div class="horse-race--fixtures">
-      <HorseList />
-      <ScheduleTabs />
-      <ResultsTabs />
+    <div class="horse-race--controls">
+      <RaceControls />
     </div>
-    <div class="horse-race--display">
-     <RaceDisplay/>
+    <div class="horse-race--game">
+      <div class="horse-race--fixtures">
+        <HorseList />
+        <ScheduleTabs />
+        <ResultsTabs />
+      </div>
+      <div class="horse-race--display">
+        <RaceDisplay />
+      </div>
     </div>
   </div>
 </template>
@@ -21,6 +25,12 @@ import RaceDisplay from '@/components/Organisms/RaceDisplay.vue';
 
 export default {
   name: 'HorseRaceView',
-  components: { HorseList, RaceControls, ScheduleTabs, RaceDisplay, ResultsTabs},
+  components: {
+    HorseList,
+    RaceControls,
+    ScheduleTabs,
+    RaceDisplay,
+    ResultsTabs,
+  },
 };
 </script>

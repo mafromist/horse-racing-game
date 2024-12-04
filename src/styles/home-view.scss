@@ -1,0 +1,10 @@
+.home {
+  @include flex-center;
+  flex-direction: column;
+  padding: 0 16px;
+  height: 100vh;
+
+  &--play-button {
+    width: fit-content;
+  }
+}

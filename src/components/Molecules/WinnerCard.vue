@@ -1,7 +1,7 @@
 <template>
-  <div class="winner-card">
+  <div class="winner--card">
     <IconHorse :color="iconColor" />
-    <div class="winner-details">
+    <div class="winner--details">
       <h3>Horse {{ horseId }}</h3>
       <TextItem tag="p" customClass="points">{{ totalPoints }} Points</TextItem>
     </div>

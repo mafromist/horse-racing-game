@@ -5,7 +5,6 @@
     buttonText="Create a Race"
     @click="generateRace"
   />
- 
 </template>
 
 <script>
@@ -24,17 +23,15 @@ export default {
     const generateRace = async () => {
       try {
         await store.dispatch('generateHorses');
-
         await store.dispatch('scheduleRounds');
       } catch (error) {
-        console.error('Error generating the race:', error);
+        return console.error('Error ', error);
       }
     };
 
     return {
       generateRace,
       isGenerated,
-
     };
   },
 };

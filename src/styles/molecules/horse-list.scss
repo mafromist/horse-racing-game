@@ -3,7 +3,7 @@
 	align-items: center;
 	gap: 4px;
 	line-height: 0;
-	color: #332f2f;
+	color: $color-black;
 
 	&--icon {
 		height: 25px;
@@ -23,11 +23,9 @@
 			background-color: #f9f9f9;
 			min-width: 27.8rem;
 			padding: 8px 16px;
-			color: #332f2f;
-			border: 3px solid #332f2f;
+			color: $color-black;
+			border: 3px solid $color-black;
 			border-radius: 4px;
-
-      
 		}
 	}
 

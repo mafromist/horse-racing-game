@@ -2,4 +2,9 @@
   display: flex;
   justify-content: flex-end;
   gap: 16px;
+
+
+  @include respond-from(768px) {
+    margin-bottom: 16px;
+  }
 }
