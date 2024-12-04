@@ -13,12 +13,12 @@ export default createStore({
     rounds: [],
     schedule: [],
     results: [],
-    scores: {}, 
     isRaceGenerated: false,
     isRaceReseted: false,
     isRaceStarted: false,
     isRaceFinished: false,
     isRacePaused: false,
+    totalScores: {},
   },
   getters: {
     getHorses: (state) => state.horses,
@@ -29,7 +29,8 @@ export default createStore({
     getIsRaceStarted: (state) => state.isRaceStarted,
     getIsRacePaused: (state) => state.isRacePaused,
     getRaceResults: (state) => state.results,
-    getScores: (state) => state.scores, 
+    getIsRaceFinished: (state) => state.isRaceFinished,
+    getTotalScores: (state) => state.totalScores,
   },
   mutations: {
     setHorses(state, horses) {
@@ -59,19 +60,27 @@ export default createStore({
     setRaceResultFinishTimes(state, { roundIndex, sortedHorses }) {
       const distances = [1200, 1400, 1600, 1800, 2000, 2200];
 
+      if (!state.results[roundIndex]) {
+        state.results[roundIndex] = {
+          distance: distances[roundIndex],
+          roundId: roundIndex + 1,
+          horses: [],
+          roundScores: {}, // To hold the round points
+        };
+      }
+
       sortedHorses.forEach((horse, index) => {
-        const scores = 10 - index;
-        state.scores[horse.id] = (state.scores[horse.id] || 0) + scores;
-  
-        horse.score = scores;
+        const points = 10 - index;
+        horse.score = points;
+        state.results[roundIndex].roundScores[horse.id] = points;
+
+        if (!state.totalScores[horse.id]) {
+          state.totalScores[horse.id] = 0;
+        }
+        state.totalScores[horse.id] += points;
       });
 
-      state.results[roundIndex] = {
-        distance: distances[roundIndex],
-        roundId: roundIndex + 1,
-        horses: sortedHorses,
-      };
-      
+      state.results[roundIndex].horses = sortedHorses;
     },
 
     setRaceFinished(state, finished) {
@@ -133,9 +142,10 @@ export default createStore({
       if (roundIndex === undefined || !resultHorses) {
         return;
       }
-      const sortedHorses = [...resultHorses].sort((a, b) => a.finishTime - b.finishTime);
+      const sortedHorses = [...resultHorses].sort(
+        (a, b) => a.finishTime - b.finishTime,
+      );
 
-      
       commit('setRaceResultFinishTimes', { roundIndex, sortedHorses });
     },
   },

@@ -3,12 +3,13 @@
   font-size: 12px;
   background-color: transparent;
   border: none;
-  outline: 2px solid var(--color-red);
+  outline: 2px solid $color-red;
   transition: 0.2s ease-out all;
   border-radius: 4px;
+  color: $color-red;
 
   &:hover {
-    background-color: var(--color-red);
+    background-color: $color-red;
     color: white;
   }
 
@@ -18,8 +19,8 @@
   }
 
   &--link {
-    background-color: var(--color-red);
-    color: var(--color-white);
+    background-color: $color-red;
+    color: $color-white;
     outline: none;
     border: none;
     text-decoration: none;
@@ -27,8 +28,8 @@
     padding: 6px 12px;
 
     &:hover {
-      background-color: var(--color-white);
-      color: var(--color-red);
+      background-color: $color-white;
+      color: $color-red;
       text-decoration: none;
     }
   }

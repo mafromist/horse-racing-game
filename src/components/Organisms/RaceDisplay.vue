@@ -1,14 +1,13 @@
 <template>
-  <div v-if="currentRound?.horses.length > 0" class="race">
+  <div v-if="currentRound?.horses.length > 0 && !isRaceFinished" class="race">
     <div class="race-header">
       <h2 class="race-title">
         Current Race | {{ currentRound.distance }}M | Round:
         {{ currentRoundIndex + 1 }} / 6
       </h2>
     </div>
-
-    <div class="race-info"></div>
     <div class="race-track">
+
       <div class="start-line">
         <div
           v-for="horse in currentRound?.horses || []"
@@ -30,6 +29,10 @@
       <div class="finish-line">Finish</div>
     </div>
   </div>
+  <div v-if="isRaceFinished" class="score-table">
+    <!-- <ScoreTable /> -->
+    <Winners/>
+  </div>
 </template>
 
 <script>
@@ -37,14 +40,19 @@ import { defineComponent, computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import anime from 'animejs';
 import IconHorse from '@/components/Atoms/IconHorse.vue';
+// import ScoreTable from '@/components/Organisms/ScoreTable.vue';
+import Winners from '@/components/Organisms/Winners.vue';
 
 export default defineComponent({
   name: 'RaceAnimation',
   components: {
     IconHorse,
+    // ScoreTable,
+    Winners
   },
   setup() {
     const store = useStore();
+    const isRaceFinished = computed(() => store.getters.getIsRaceFinished);
     const currentRoundIndex = ref(0);
     const currentRound = computed(
       () => store.getters.getRounds[currentRoundIndex.value],
@@ -88,7 +96,7 @@ export default defineComponent({
     const resetHorsesPosition = () => {
       const horses = document.querySelectorAll('[id^="racing-"]');
       horses.forEach((horse) => {
-        horse.style.transform = `translateX(0)`; // Reset position for all horses.
+        horse.style.transform = `translateX(0)`;
       });
     };
 
@@ -150,7 +158,7 @@ export default defineComponent({
       },
     );
 
-    return { currentRound, currentRoundIndex };
+    return { currentRound, currentRoundIndex, isRaceFinished };
   },
 });
 </script>

@@ -8,7 +8,7 @@
       :class="{ active: selectedTab === content.roundId }"
       @click="selectTab(content.roundId)"
     >
-      Round {{ content.roundId }} - {{ content.distance }} <span>M</span>
+      Round {{ content.roundId }} - {{ content.distance }} <p>M</p>
     </div>
   </div>
 </template>

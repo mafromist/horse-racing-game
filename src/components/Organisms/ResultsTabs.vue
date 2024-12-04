@@ -1,7 +1,7 @@
 <template>
-  <div class="tabs race-schedule">
+  <div class="tabs race-results">
     <h2 class="tabs--title">Horse Racing Results</h2>
-    <div v-if="!results.length">No Race Results Available</div>
+    <div v-if="!results.length"><p>No Race Results Available</p></div>
     <div v-else class="tab">
       <div v-if="horses && horses.length > 0" class="tab--nav">
         <div

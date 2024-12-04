@@ -20,7 +20,7 @@ export default {
 
     const isGenerated = computed(() => store.getters.getIsRaceGenerated);
     const isRaceStarted = computed(() => store.getters.getIsRaceStarted);
-    const setIsRacePaused = computed(() => store.getters.getIsRacePaused);
+    const isRacePaused = computed(() => store.getters.getIsRacePaused);
 
     const startRace = async () => {
       if (isRaceStarted.value) {
@@ -43,7 +43,7 @@ export default {
       isRaceStarted,
       startRace,
       pauseRace,
-      setIsRacePaused,
+      isRacePaused,
     };
   },
 };

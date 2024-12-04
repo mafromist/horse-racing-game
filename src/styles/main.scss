@@ -1,17 +1,14 @@
 @import url(./atoms/tab.scss);
+@import url(./atoms/text.scss);
 @import url(./atoms/button.scss);
+@import url(./molecules/horse-list.scss);
 @import url(./organisms/race-controls.scss);
 @import url(./organisms/race-display.scss);
-@import url(./molecules/horse-list.scss);
+@import url(./organisms/winner-list.scss);
 @import url(./horse-race-view.scss);
-
 
 :root {
   font-size: 10px;
-  --color-green: #2ecc71;
-  --color-black: #332f2f;
-  --color-white: #ffffff;
-  --color-red: #ce2f2f;
 }
 
 #app {
@@ -22,7 +19,7 @@
   color: #2c3e50;
 }
 
-.app{
+.app {
   &--nav {
     display: flex;
     gap: 12px;
@@ -30,16 +27,17 @@
     &-link {
       text-decoration: none;
       font-size: 12px;
-      color: var(--color-black);
-  
+      color: $color-gold;
+
       &:hover {
         text-decoration: underline;
-        color: var(--color-red)
+        color: $color-red;
       }
       &:focus {
-        color: var(--color-black)
+        color: $color-black;
       }
     }
-    
   }
 }
+
+

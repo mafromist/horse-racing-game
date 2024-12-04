@@ -21,9 +21,13 @@
         width: 100%;
 
         &.active {
-          background-color: var(--color-red);
+          background-color: $color-red;
           color: white;
           font-weight: bold;
+
+          .race-results & {
+            background-color: $color-green;
+          }
         }
 
         &-title {
@@ -54,7 +58,7 @@
               display: flex;
               justify-content: center;
               .horse-name {
-                font-size: 14px ;
+                font-size: 14px;
               }
             }
           }

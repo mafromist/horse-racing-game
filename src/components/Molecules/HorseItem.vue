@@ -1,7 +1,7 @@
 <template>
   <div class="horse">
     <p class="horse-name">
-      Horse <span class="horse-number">{{ horse?.number }}</span>
+      Horse {{ horse?.number }}
     </p>
     <IconHorse :color="horse?.color" />
     <p v-if="showPP" class="horse-performance-point">
