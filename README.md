@@ -9,7 +9,7 @@ Here is the first UI Design on Figma for this project, designed by me.
 
 ### What I designed on Figma
 
-<img width="700" alt="Screenshot 2024-12-03 at 03 37 02" src="https://github.com/user-attachments/assets/501c8d19-c7ba-4919-8b16-a710bcc621cb">
+<img width="100%" alt="Screenshot 2024-12-03 at 03 37 02" src="https://github.com/user-attachments/assets/501c8d19-c7ba-4919-8b16-a710bcc621cb">
 
 
 Optional Interactivity for the game: Each rounds' first 3 winner horses will increase their Performance Point from 5 to 15 points and the rest of the racing horses will lose from 1 to 7 points. 
