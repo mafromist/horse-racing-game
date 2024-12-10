@@ -1,3 +1,5 @@
+// Not used on the project
+
 import {createStore} from 'vuex';
 
 const generateRandomHEXColor = () => {
